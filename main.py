@@ -1,6 +1,6 @@
 import pyodbc
 from fastapi import FastAPI, HTTPException
-from fastapi_pagination import Page, paginate
+import pymssql
 from models.cliente import Cliente
 from models.usuarios import Usuarios
 from typing import List
@@ -11,16 +11,14 @@ app = FastAPI()
 # caso esteja em outra url é só adicionar o /docs no final da url
 
 
+
 def get_connection():
-    conn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server};'
-        'SERVER=fatekinho-fatec.database.windows.net,1433;'
-        'DATABASE=fatekinho;'
-        'UID=admin1@fatekinho-fatec;'
-        'PWD=Admin@2024;'
-        'Encrypt=yes;'
-        'TrustServerCertificate=no;'
-        'Connection Timeout=30;'
+    conn = pymssql.connect(
+        server='fatekinho-fatec.database.windows.net',
+        user='admin1@fatekinho-fatec',
+        password='Admin@2024',
+        database='fatekinho',
+        port=1433
     )
     return conn
 
