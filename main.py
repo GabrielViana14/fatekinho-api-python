@@ -37,7 +37,7 @@ async def create_cliente(cliente: Cliente):
         # Inserção de todos os campos na tabela `clientes`
         cursor.execute("""
             INSERT INTO clientes (nome, data_nasc, cpf, cep, numero, complemento) 
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             cliente.nome,
             cliente.data_nasc,
@@ -68,7 +68,7 @@ async def get_cliente(id: int):
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT * FROM clientes WHERE id_cliente =?", (id,))
+        cursor.execute("SELECT * FROM clientes WHERE id_cliente = %s", (id,))
         row = cursor.fetchone()
 
         if row:
@@ -97,8 +97,8 @@ async def update_cliente(id: int, cliente: Cliente):
         # Atualizar todos os campos do cliente
         cursor.execute("""
             UPDATE clientes 
-            SET nome = ?, data_nasc = ?, cpf = ?, cep = ?, numero = ?, complemento = ? 
-            WHERE id = ?
+            SET nome = %s, data_nasc = %s, cpf = %s, cep = %s, numero = %s, complemento = %s 
+            WHERE id = %s
         """, (
             cliente.nome,
             cliente.data_nasc,
@@ -137,7 +137,7 @@ async def delete_cliente(id: int):
     cursor = conn.cursor()
 
     try:
-        cursor.execute("DELETE FROM clientes WHERE id =?", (id,))
+        cursor.execute("DELETE FROM clientes WHERE id =%s", (id,))
         conn.commit()
         return {"mensagem": "Registro excluído com sucesso"}
     finally:
@@ -186,7 +186,7 @@ async def create_usuario(usuario: Usuarios):
         # Inserção de todos os campos na tabela `clientes`
         cursor.execute("""
             INSERT INTO usuarios (email, senha, tipo, idCliente) 
-            VALUES (?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s)
         """, (
             usuario.email,
             usuario.senha,
@@ -215,7 +215,7 @@ async def get_usuario(id: int):
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT * FROM usuarios WHERE idUsuario =?", (id,))
+        cursor.execute("SELECT * FROM usuarios WHERE idUsuario =%s", (id,))
         row = cursor.fetchone()
 
         if row:
@@ -242,8 +242,8 @@ async def update_usuario(id: int, usuario: Usuarios):
         # Atualizar todos os campos do cliente
         cursor.execute("""
             UPDATE clientes 
-            SET email = ?, senha = ?, tipo = ?, idCliente = ? 
-            WHERE idUsuario = ?
+            SET email = %s, senha = %s, tipo = %s, idCliente = %s 
+            WHERE idUsuario = %s
         """, (
             usuario.email,
             usuario.senha,
@@ -277,7 +277,7 @@ async def delete_usuario(id: int):
     cursor = conn.cursor()
 
     try:
-        cursor.execute("DELETE FROM usuarios WHERE idUsuario =?", (id,))
+        cursor.execute("DELETE FROM usuarios WHERE idUsuario =%s", (id,))
         conn.commit()
         return {"mensagem": "Registro excluído com sucesso"}
     finally:
