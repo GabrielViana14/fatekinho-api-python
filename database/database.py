@@ -7,7 +7,6 @@ def get_connection():
         user='admin1@fatekinho-fatec',
         password='Admin@2024',
         database='fatekinho',
-        port=1433
+        port='1433'
     )
     return conn
-
