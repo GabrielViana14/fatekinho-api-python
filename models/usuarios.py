@@ -5,11 +5,17 @@ from typing import Optional
 
 
 class Usuarios(BaseModel):
+    email: str
+    senha: str
+    idCliente: Optional[int] = None
+    tipo: Optional[str] = None
+
+
+class UsuariosRead(BaseModel):
     idUsuario: int
     email: str
     senha: str
-    tipo: int
-    idCliente: int  # Ensure this field is included
-    cliente: Optional[Cliente] = None  # Optional field if you have a nested model
+    idCliente: Optional[int] = None
+    tipo: Optional[str] = None
 
 

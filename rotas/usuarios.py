@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from database.database import get_connection
-from models.usuarios import Usuarios
+from models.usuarios import Usuarios,UsuariosRead
 from typing import List
 
 router = APIRouter()
@@ -15,24 +15,32 @@ async def create_usuario(usuario: Usuarios):
     try:
         # Inserção de todos os campos na tabela `clientes`
         cursor.execute("""
-            INSERT INTO usuarios (email, senha, tipo, idCliente) 
+            INSERT INTO usuarios (email, senha, idCliente, tipo) 
             VALUES (%s, %s, %s, %s)
         """, (
             usuario.email,
             usuario.senha,
-            usuario.tipo,
-            usuario.idCliente
+            usuario.idCliente,
+            usuario.tipo
         ))
+        # Obtém o último idUsuario inserido
+        cursor.execute("SELECT SCOPE_IDENTITY()")
+        id_usuario = cursor.fetchone()[0]
 
+        # Confirma a transação
         conn.commit()
         return {
-            "idUsuario": cursor.lastrowid,
+            "idUsuario": id_usuario,
             "email": usuario.email,
             "senha": usuario.senha,
-            "tipo": usuario.tipo,
-            "idCliente": usuario.idCliente
+            "idCliente": usuario.idCliente,
+            "tipo": usuario.tipo
 
         }
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
     finally:
         cursor.close()
         conn.close()
@@ -53,8 +61,8 @@ async def get_usuario(id: int):
                 "idUsuario": row[0],
                 "email": row[1],
                 "senha": row[2],
-                "tipo": row[3],
-                "idCliente": row[4]
+                "idCliente": row[3],
+                "tipo": row[4]
             }
         else:
             raise HTTPException(status_code=404, detail="Registro não encontrado.")
@@ -71,14 +79,14 @@ async def update_usuario(id: int, usuario: Usuarios):
     try:
         # Atualizar todos os campos do cliente
         cursor.execute("""
-            UPDATE clientes 
-            SET email = %s, senha = %s, tipo = %s, idCliente = %s 
+            UPDATE Usuarios 
+            SET email = %s, senha = %s, idCliente = %s, tipo = %s 
             WHERE idUsuario = %s
         """, (
             usuario.email,
             usuario.senha,
-            usuario.tipo,
             usuario.idCliente,
+            usuario.tipo,
             id
         ))
 
@@ -114,8 +122,9 @@ async def delete_usuario(id: int):
         cursor.close()
         conn.close()
 
+
 # Get all usuarios
-@router.get("/usuarios/all/", response_model=List[Usuarios])
+@router.get("/usuarios/all/", response_model=List[UsuariosRead])
 async def get_all_usuarios():
     conn = get_connection()
     cursor = conn.cursor()
@@ -125,15 +134,16 @@ async def get_all_usuarios():
         rows = cursor.fetchall()
         usuarios = []
         for row in rows:
-            usuario = Usuarios(
+            usuario = UsuariosRead(
                 idUsuario=row[0],
                 email=row[1],
                 senha=row[2],
-                tipo=row[3],
-                idCliente=row[4]
+                idCliente=row[3],
+                tipo= row[4]
             )
             usuarios.append(usuario)
         return usuarios
     finally:
         cursor.close()
         conn.close()
+

@@ -12,3 +12,7 @@ app = FastAPI()
 app.include_router(clientes_router)
 app.include_router(usuarios_router)
 app.include_router(auth_router)
+
+@app.get("/")
+def home():
+    return "API rodando"
