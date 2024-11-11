@@ -4,15 +4,18 @@ FROM python:3.11-slim
 # Definir o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar os arquivos do projeto para o container
-COPY . /app
-
-# Instalar as dependências do sistema (como libssl-dev)
+# Instalar Rust e Cargo (necessário para compilação de dependências)
 RUN apt-get update && apt-get install -y \
     libssl-dev \
     gcc \
     python3-dev \
+    curl \
+    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+    && source $HOME/.cargo/env \
     && rm -rf /var/lib/apt/lists/*
+
+# Copiar os arquivos do projeto para o container
+COPY . /app
 
 # Instalar as dependências do Python
 RUN pip install --upgrade pip
