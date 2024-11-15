@@ -54,12 +54,12 @@ async def get_all_historico():
         historico_array = []
         for row in rows:
             historico = HistWonLose(
-                idJogo=row[0],
-                idUsuario=row[1],
-                valorApostado=row[2],
-                ganhou=row[3],
-                valorFinalApostado=row[4],
-                dataCadastro=row[5]
+                idJogo=row[1],
+                idUsuario=row[2],
+                valorApostado=row[3],
+                ganhou=row[4],
+                valorFinalApostado=row[5],
+                dataCadastro=row[6]
             )
             historico_array.append(historico)
         return historico_array
