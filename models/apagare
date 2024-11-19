@@ -1,0 +1,18 @@
+Assuntos prova 
+Entrega continua
+	testes de aceitação
+	build
+	deploy
+	Ferramentas
+		Build
+			Maquinas virtuais
+			Conteiners(dockers,kubernets)
+		Deploy
+			
+	testes automatizaveis
+		desempenho, 
+		disponibilidade,
+		parametros quantitativos
+	testes não automatizaveis
+		parametros qualitativos
+		percepção do usuarios
