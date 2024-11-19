@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from database.database import get_connection
-from models.usuarios import Usuarios,UsuariosRead
+from models.usuarios import Usuarios, UsuariosRead
 from typing import List
 
 router = APIRouter()
@@ -15,12 +15,11 @@ async def create_usuario(usuario: Usuarios):
     try:
         # Inserção de todos os campos na tabela `clientes`
         cursor.execute("""
-            INSERT INTO usuarios (email, senha, idCliente, tipo) 
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO usuarios (email, senha, tipo) 
+            VALUES (%s, %s, %s)
         """, (
             usuario.email,
             usuario.senha,
-            usuario.idCliente,
             usuario.tipo
         ))
         # Obtém o último idUsuario inserido
@@ -33,7 +32,6 @@ async def create_usuario(usuario: Usuarios):
             "idUsuario": id_usuario,
             "email": usuario.email,
             "senha": usuario.senha,
-            "idCliente": usuario.idCliente,
             "tipo": usuario.tipo
 
         }
@@ -61,8 +59,7 @@ async def get_usuario(id: int):
                 "idUsuario": row[0],
                 "email": row[1],
                 "senha": row[2],
-                "idCliente": row[3],
-                "tipo": row[4]
+                "tipo": row[3]
             }
         else:
             raise HTTPException(status_code=404, detail="Registro não encontrado.")
@@ -80,12 +77,11 @@ async def update_usuario(id: int, usuario: Usuarios):
         # Atualizar todos os campos do cliente
         cursor.execute("""
             UPDATE Usuarios 
-            SET email = %s, senha = %s, idCliente = %s, tipo = %s 
+            SET email = %s, senha = %s, tipo = %s 
             WHERE idUsuario = %s
         """, (
             usuario.email,
             usuario.senha,
-            usuario.idCliente,
             usuario.tipo,
             id
         ))
@@ -101,7 +97,6 @@ async def update_usuario(id: int, usuario: Usuarios):
             "email": usuario.email,
             "senha": usuario.senha,
             "tipo": usuario.tipo,
-            "idCliente": usuario.idCliente
         }
 
     finally:
@@ -138,8 +133,7 @@ async def get_all_usuarios():
                 idUsuario=row[0],
                 email=row[1],
                 senha=row[2],
-                idCliente=row[3],
-                tipo= row[4]
+                tipo= row[3]
             )
             usuarios.append(usuario)
         return usuarios
