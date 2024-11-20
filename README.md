@@ -53,14 +53,25 @@ Outra URL: Adicione /docs ao final da URL.<br>
 
 ### 🛠️ Estrutura do Projeto
     ```bash
-    ├── main.py                 # Arquivo principal que inicializa a API
-    ├── rotas/                  # Diretório com as rotas da aplicação
-    │   ├── clientes.py         # Rotas relacionadas aos clientes
-    │   ├── usuarios.py         # Rotas relacionadas aos usuários
-    │   ├── autenticacao.py     # Rotas para autenticação
-    │   ├── historicoWonLose.py # Rotas para histórico de vitórias/derrotas
-    ├── requirements.txt        # Dependências do projeto
-    └── README.md               # Documentação do projeto
+    ├── main.py                   # Arquivo principal que inicializa a API
+    ├── config/                   # Diretório com as configurações da API
+    │   ├── auth.py               # Geração e verificação de tokens
+    │   └── config.py             # hyper paraments da API
+    ├── database/                 # Diretório com dados para conexão ao banco de dados online
+    │   └── database.py           # conexão ao banco de dados
+    ├── models/                   # Modelos de dados para retorno das rotas
+    │   ├── histWonLose.py        # Modelo para rota histórico de vitórias/derrotas
+    │   ├── login.py              # Modelo para rota de login
+    │   ├── tabelaCombinada.py    # Modelo para rota de tabelaCombinada
+    │   ├── token.py              # Modelo para geração de token
+    │   └── usuarios.py           # Modelo para rota de usuarios
+    ├── rotas/                    # Diretório com as rotas da aplicação
+    │   ├── usuarios.py           # Rotas relacionadas aos usuários
+    │   ├── autenticacao.py       # Rotas para autenticação
+    │   ├── historicoWonLose.py   # Rotas para histórico de vitórias/derrotas
+    │   └── tabelaCombinada.py    # Rotas para dados da operações feitas pelo usuário
+    ├── requirements.txt          # Dependências do projeto
+    └── README.md                 # Documentação do projeto
 
 ### 🧪 Testando a API
 Para testar as rotas da API, você pode:
@@ -74,10 +85,10 @@ GET /
     ```json
     "API rodando"
 - Rotas Importadas
-  - Clientes: /clientes
   - Usuários: /usuarios
   - Autenticação: /auth
   - Histórico de Vitórias/Derrotas: /historico-won-lose
+  - Tabelas Combinadas: /table-comb
 
 ### 🛠 Tecnologias Utilizadas
 - FastAPI: Framework para construir APIs modernas e rápidas.
