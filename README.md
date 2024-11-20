@@ -52,7 +52,6 @@ Local: http://127.0.0.1:8000/docs<br>
 Outra URL: Adicione /docs ao final da URL.<br>
 
 ### 🛠️ Estrutura do Projeto
-    ```bash
     ├── main.py                   # Arquivo principal que inicializa a API
     ├── config/                   # Diretório com as configurações da API
     │   ├── auth.py               # Geração e verificação de tokens
