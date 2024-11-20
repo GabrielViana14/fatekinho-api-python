@@ -7,7 +7,7 @@ from datetime import datetime
 router = APIRouter()
 
 
-
+@router.get("/table-comb/{id}",response_model=List[tabelaCombinada])
 async def get_combined_items(id: int) -> List[tabelaCombinada]:
     conn = get_connection()
     cursor = conn.cursor()
@@ -46,7 +46,7 @@ async def get_combined_items(id: int) -> List[tabelaCombinada]:
         conn.close()
 
 # Read in table combin
-@router.get("/table-comb/{id}",response_model=tabelaCombinadaResponse)
+
 async def get_table_combined_items(id: int):
     try:
         itens = await get_combined_items(id)
